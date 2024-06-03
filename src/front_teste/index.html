@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>File Upload Test</title>
+    <!-- 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    -->
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+
+</head>
+
+<body style="text-align: center;">
+
+    <h1 style="text-align: center;">File Upload Test</h1>
+    <!-- 
+    <br>
+    <h2>Upload Image</h2>
+    <input type="file" id="imageInput">
+    <button onclick="uploadImage()">Upload Image</button>  
+    <br>
+    <h2>Upload Video</h2>
+    <input type="file" id="videoInput">
+    <button onclick="uploadVideo()">Upload Video</button>
+    <br>
+    <h2>Upload Music</h2>
+    <input type="file" id="musicInput">
+    <button onclick="uploadMusic()">Upload Music</button>
+    <br> <br>
+    -->
+    
+    <div class="row g-2 w-50 m-auto">
+        <div class="col-md-6">
+            <label class="form-label">Título da Imagem</label>
+            <input type="text" class="form-control" id="title" name="tile" placeholder="ex.: Anna Joyce">
+        </div>
+        <div class="col-md-6">
+            <label class="form-label">Descrição da Imagem</label>
+            <input type="text" class="form-control" id="descricaoImg" name="descricaoImg" placeholder="ex.: Capa do Álbum" required>
+        </div>
+        <div class="col-10 m-0 p-2">
+            <input type="file" id="imageInput">
+            <button onclick="uploadImage()" class="btn btn-outline-primary" style="width: 130px; height: 40px;">Upload Image</button>
+        </div>
+    </div>
+
+    <hr>
+
+    <div class="row g-2 w-50 m-auto">
+        <div class="col-md-6">
+            <label class="form-label">Título do Video</label>
+            <input type="text" class="form-control" id="titleVideo" name="titleVideo" placeholder="ex.: Concerto">
+        </div>
+        <div class="col-md-6">
+            <label class="form-label">Descrição do Vídeo</label>
+            <input type="text" class="form-control" id="descricaoVideo" name="descricaoVideo" placeholder="ex.: Live action" required>
+        </div>
+        <div class="col-10 m-0 p-2">
+            <input type="file" id="videoInput">
+            <button onclick="uploadVideo()" class="btn btn-outline-primary" style="width: 130px; height: 40px;">Upload Video</button>
+        </div>
+    </div>
+
+    <hr>
+
+    <div class="row g-2 w-50 m-auto">
+        <div class="col-md-4">
+            <label class="form-label">Título da Música</label>
+            <input type="text" class="form-control" id="title" name="tile" placeholder="ex.: Anna Joyce">
+        </div>
+        <div class="col-md-4">
+            <label class="form-label">Descrição da Imagem</label>
+            <input type="text" class="form-control" id="descricao" name="descricao" placeholder="ex.: Capa do Álbum" required>
+        </div>
+        <div class="col-md-4">
+            <label class="form-label">Categoria Musical</label>
+            <select class="form-select">
+                <option value="1">Romantic</option>
+                <option value="2">Rap</option>
+                <option value="3">R&B</option>
+              </select>
+        </div>
+        <div class="col-10 m-0 p-2">
+            <input type="file" id="musicInput">
+            <button onclick="uploadMusic()" class="btn btn-outline-primary" style="width: 130px; height: 40px;">Upload Music</button>
+        </div>
+    </div>
+
+    
+    <br>
+    <div style="max-width: 400px; background-color: rgb(0, 0, 0); margin: auto; max-height: 500px;">
+        <img src="abstract-uv-ultraviolet-light-composition.jpg" style="max-width: 300px;" id="minha_imagem">
+    </div>
+    <br> <br>
+    
+        <!-- Escolha do Vídeo 
+        <video id="videoX" controls>
+            <source src="" type="video/mp4">
+        </video>
+        -->
+    <script src="script.js"></script>    
+    <script src="bootstrap/js/bootstrap.min.js"></script>
+    
+</body>
+
+</html>
