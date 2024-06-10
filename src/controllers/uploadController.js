@@ -1,5 +1,6 @@
 import path from 'path';
 import fs from 'fs';
+import mime from 'mime-types';
 
 // upload de um video
 export async function uploadVideo(req, reply) {
@@ -79,30 +80,62 @@ export async function getImage(req, reply) {
   }
 }
 
+function getContentType2(filename) {
+  const ext = path.extname(filename);
+  return mime.lookup(ext) || 'application/octet-stream';
+}
+
+// Reprodução via Streaming
 export async function getVideo(req, reply) {
   const username = req.params.username;
   const filename = req.params.filename;
   const filePath = path.resolve('content', 'users', username, 'videos', filename);
 
-  // Verificar se o arquivo existe
-  if (!fs.existsSync(filePath)) {
-    reply.status(404).send({ error: 'File not found' });
-    return;
+  try {
+    // Check if the file exists
+    if (!fs.existsSync(filePath)) {
+      reply.status(404).send({ error: 'File not found' });
+      return;
+    }
+
+    const range = req.headers.range;
+    const videoSize = fs.statSync(filePath).size;
+
+    if (!range) {
+      reply.status(400).send("Range header is required");
+      return;
+    }
+
+    const CHUNK_SIZE = 10 ** 6; // 1MB
+    const start = Number(range.replace(/\D/g, ""));
+    const end = Math.min(start + CHUNK_SIZE, videoSize - 1);
+
+    const contentLength = end - start + 1;
+    const headers = {
+      "Content-Range": `bytes ${start}-${end}/${videoSize}`,
+      "Accept-Ranges": "bytes",
+      "Content-Length": contentLength,
+      "Content-Type": getContentType2(filename),
+    };
+
+    reply.raw.writeHead(206, headers);
+
+    // Create read stream for the part of the video
+    const videoStream = fs.createReadStream(filePath, { start, end });
+    videoStream.pipe(reply.raw);
+
+    // Ensure the reply is properly handled by Fastify
+    videoStream.on('end', () => {
+      reply.raw.end();
+    });
+
+  } catch (error) {
+    reply.status(500).send({ error: 'An error occurred while retrieving the video' });
   }
-
-  // Ler o conteúdo do arquivo
-  const fileContent = fs.readFileSync(filePath);
-
-  // Definir o tipo de conteúdo -> Função para detectar o tipo de ficheiro (extensao)
-  reply.header('Content-Type', getContentType(filename));
-
-  // Enviar o conteúdo do video
-  reply.send(fileContent);
-  // Retorna o caminho
-  //reply.status(200).send(filePath);
 }
 
-export async function getMusic(req, reply) {
+
+/*export async function getMusic(req, reply) {
   const username = req.params.username;
   const filename = req.params.filename;
   const filePath = path.resolve('content', 'users', username, 'musics', filename);
@@ -125,6 +158,58 @@ export async function getMusic(req, reply) {
   // Retorna o caminho
   //reply.status(200).send(filePath);
 }
+*/
+
+
+export async function getMusic(req, reply) {
+  const username = req.params.username;
+  const filename = req.params.filename;
+  const filePath = path.resolve('content', 'users', username, 'musics', filename);
+
+  try {
+    // Check if the file exists
+    if (!fs.existsSync(filePath)) {
+      reply.status(404).send({ error: 'File not found' });
+      return;
+    }
+
+    const range = req.headers.range;
+    const audioSize = fs.statSync(filePath).size;
+
+    if (!range) {
+      reply.status(400).send("Range header is required");
+      return;
+    }
+
+    const CHUNK_SIZE = 10 ** 6; // 1MB
+    const start = Number(range.replace(/\D/g, ""));
+    const end = Math.min(start + CHUNK_SIZE, audioSize - 1);
+
+    const contentLength = end - start + 1;
+    const headers = {
+      "Content-Range": `bytes ${start}-${end}/${audioSize}`,
+      "Accept-Ranges": "bytes",
+      "Content-Length": contentLength,
+      "Content-Type": getContentType(filename),
+    };
+
+    reply.raw.writeHead(206, headers);
+
+    // Create read stream for the part of the audio
+    const audioStream = fs.createReadStream(filePath, { start, end });
+    audioStream.pipe(reply.raw);
+
+    // Ensure the reply is properly handled by Fastify
+    audioStream.on('end', () => {
+      reply.raw.end();
+    });
+
+  } catch (error) {
+    reply.status(500).send({ error: 'An error occurred while retrieving the audio' });
+  }
+}
+
+
 
 // função auxiliar para retornar o tipo de ficheiro
 function getContentType(filename) {
