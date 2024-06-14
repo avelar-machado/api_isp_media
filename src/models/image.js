@@ -2,6 +2,7 @@
 import { DataTypes } from 'sequelize';
 import sequelize from '../config/dbConfig.js';
 import User from './user.js';
+import Album from './album.js';
 
 const Image = sequelize.define('image', {
     id: {
@@ -14,6 +15,14 @@ const Image = sequelize.define('image', {
         type: DataTypes.INTEGER,
         references: {
             model: User,
+            key: 'id'
+        },
+        allowNull: false
+    },
+    albumId: {
+        type: DataTypes.INTEGER,
+        references: {
+            model: Album,
             key: 'id'
         },
         allowNull: false
@@ -38,6 +47,7 @@ const Image = sequelize.define('image', {
 
 // Relações
 Image.belongsTo(User, { foreignKey: 'user_Id' });
+Image.belongsTo(Album, { foreignKey: 'albumId' });
 User.hasMany(Image, { foreignKey: 'user_Id' });
 
 export default Image;
