@@ -56,7 +56,7 @@ export async function updateGenero(req, res) {
     try {
         const generoId = parseInt(req.params.id);
         const updatedGenero = await generoService.updateGenero(generoId, req.body);
-        res.status(200).send(updatedGenero);
+        res.status(202).send(updatedGenero);
     } catch (error) {
         res.status(404).send({ error: error.message });
     }

@@ -19,14 +19,6 @@ const Image = sequelize.define('image', {
         },
         allowNull: false
     },
-    albumId: {
-        type: DataTypes.INTEGER,
-        references: {
-            model: Album,
-            key: 'id'
-        },
-        allowNull: false
-    },
     url: {
         type: DataTypes.STRING,
         allowNull: false
@@ -47,7 +39,6 @@ const Image = sequelize.define('image', {
 
 // Relações
 Image.belongsTo(User, { foreignKey: 'user_Id' });
-Image.belongsTo(Album, { foreignKey: 'albumId' });
 User.hasMany(Image, { foreignKey: 'user_Id' });
 
 export default Image;

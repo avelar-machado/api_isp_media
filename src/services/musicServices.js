@@ -1,15 +1,27 @@
 // src/services/musicServices.js
 import Music from '../models/music.js'
-import fs from 'fs';
-import path from 'path';
 import { Op } from 'sequelize';
 import Genero from '../models/genero.js';
+import { getAlbumById } from './albumServices.js';
 
 // criação de um novo registo de música
 export async function createMusic(musicData) {
     try {
-        const music = await Music.create(musicData);
-        return music;
+        // se tiver um album
+        if(musicData.albumId != null){
+            // procurar pelo album
+            const album = await getAlbumById(musicData.albumId);
+            // se nao for adicionada uma imagem, vai receber a imagem do album
+            if(!musicData.imageId && album.imageId)
+                musicData.imageId = album.imageId;
+            // se o album for private, vai alterar a musica para privada
+            if(!album.public)
+                musicData.public = false;
+            // registar a musica
+            const music = await Music.create(musicData);
+            return music; 
+        }
+        
     } catch (error) {
         throw new Error(error.message);
     }

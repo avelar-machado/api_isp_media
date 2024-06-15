@@ -92,7 +92,7 @@ export async function getVideo(req, reply) {
   const filePath = path.resolve('content', 'users', username, 'videos', filename);
 
   try {
-    // Check if the file exists
+    // verifica se o ficheiro existe
     if (!fs.existsSync(filePath)) {
       reply.status(404).send({ error: 'File not found' });
       return;
@@ -133,33 +133,6 @@ export async function getVideo(req, reply) {
     reply.status(500).send({ error: 'An error occurred while retrieving the video' });
   }
 }
-
-
-/*export async function getMusic(req, reply) {
-  const username = req.params.username;
-  const filename = req.params.filename;
-  const filePath = path.resolve('content', 'users', username, 'musics', filename);
-
-  // Verificar se o arquivo existe
-  if (!fs.existsSync(filePath)) {
-    reply.status(404).send({ error: 'File not found' });
-    return;
-  }
-
-  // Ler o conteúdo do arquivo
-  const fileContent = fs.readFileSync(filePath);
-
-  // Definir o tipo de conteúdo -> Função para detectar o tipo de ficheiro (extensao)
-  reply.header('Content-Type', getContentType(filename));
-
-  // Enviar o conteúdo da imagem
-  reply.send(fileContent);
-
-  // Retorna o caminho
-  //reply.status(200).send(filePath);
-}
-*/
-
 
 export async function getMusic(req, reply) {
   const username = req.params.username;
@@ -208,8 +181,6 @@ export async function getMusic(req, reply) {
     reply.status(500).send({ error: 'An error occurred while retrieving the audio' });
   }
 }
-
-
 
 // função auxiliar para retornar o tipo de ficheiro
 function getContentType(filename) {

@@ -72,7 +72,11 @@ const Music = sequelize.define('music', {
     },
     estado: {
         type: DataTypes.BOOLEAN,
-        allowNull: false
+        defaultValue: true
+    },
+    public:{
+        type: DataTypes.BOOLEAN,
+        defaultValue: true
     }
 });
 

@@ -22,6 +22,9 @@ export default async function userRoutes(fastify, options) {
 
   // Rota de login
   fastify.post('/users/login', userController.login);
+
+  // Rota para tornar um usuário num editor ou remover esse privilégio
+  fastify.put('/users/:id/:escolha', userController.beEditor);
 }
 
 //export default userRoutes;

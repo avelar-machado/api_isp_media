@@ -26,6 +26,17 @@ export async function getAllAlbuns(req, res) {
     }
 }
 
+// retorna a informacao de todos os albuns publicos sem as musicas
+export async function getAlbuns(req, res) {
+    try {
+        const albuns = await albumService.getAlbuns();
+        res.status(200).send(albuns);
+    } catch (error) {
+        res.status(500).send({ error: error.message });
+    }
+}
+
+
 // retorna um album, pesquisando pelo seu ID
 export async function getAlbumById(req, res) {
     try {
@@ -56,7 +67,7 @@ export async function updateAlbum(req, res) {
     try {
         const albumId = parseInt(req.params.id);
         const updatedAlbum = await albumService.updateAlbum(albumId, req.body);
-        res.status(200).send(updatedAlbum);
+        res.status(202).send(updatedAlbum);
     } catch (error) {
         res.status(404).send({ error: error.message });
     }
