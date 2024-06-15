@@ -15,12 +15,25 @@ export async function createAlbum(albumData) {
     }
 }
 
-// recuperar todos os albuns
+// recuperar todos os albuns - for admin
 export async function getAllAlbuns() {
     try {
         const albuns = await Album.findAll();
         return albuns;
     } catch (error) {
+        throw new Error(error.message);
+    }
+}
+
+// recuperar todos os albuns publicos - for clientes
+export async function getAlbuns(){
+    try{
+        const albuns = await Album.findAll({
+            where:{
+                public:true
+            }
+        })
+    }catch(error){
         throw new Error(error.message);
     }
 }

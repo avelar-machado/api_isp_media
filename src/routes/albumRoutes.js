@@ -6,7 +6,10 @@ export default async function albumRoutes(fastify, options) {
     fastify.post('/albuns', albumController.createAlbum);
 
     // Rota para obter todos os albuns
-    fastify.get('/albuns', albumController.getAllAlbuns);
+    fastify.get('/admin/albuns', albumController.getAllAlbuns);
+
+    // Rota para obter todos os albuns para o cliente (public)
+    fastify.get('/albuns', albumController.getAlbuns);
 
     // Rota para obter um album pelo ID
     fastify.get('/albuns/:id', albumController.getAlbumById);

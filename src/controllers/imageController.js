@@ -51,7 +51,7 @@ export async function updateImage(req, res) {
     try {
         const imageId = parseInt(req.params.id);
         const updatedImage = await imageService.updateImage(imageId, req.body);
-        res.status(200).send(updatedImage);
+        res.status(202).send(updatedImage);
     } catch (error) {
         res.status(404).send({ error: error.message });
     }

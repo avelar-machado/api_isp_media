@@ -45,7 +45,11 @@ const Video = sequelize.define('video', {
     },
     estado: {
         type: DataTypes.BOOLEAN,
-        allowNull: false
+        defaultValue: true
+    },
+    public:{
+        type: DataTypes.BOOLEAN,
+        defaultValue: true
     }
 });
 

@@ -56,7 +56,7 @@ export async function updateArtista(req, res) {
     try {
         const artistaId = parseInt(req.params.id);
         const updatedArtista = await artistaService.updateArtista(artistaId, req.body);
-        res.status(200).send(updatedArtista);
+        res.status(202).send(updatedArtista);
     } catch (error) {
         res.status(404).send({ error: error.message });
     }

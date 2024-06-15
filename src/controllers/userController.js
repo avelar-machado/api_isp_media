@@ -69,7 +69,7 @@ export async function updateUser(req, res) {
     if (user) {
       // alterar o nome da pasta no servidor
       await userService.updateUserDirectories(old_user.username, user.username);
-      res.status(200).send(user);
+      res.status(202).send(user);
     } else {
       res.status(404).send({ error: 'User not found' });
     }
@@ -118,17 +118,22 @@ export async function login(request, reply) {
   }
 }
 
-/*
-export async function deleteUserByUsername(req, res) {
-  try {
-    const success = await userService.deleteUserByUsername(req.params.username);
-    if (success) {
-      await userService.deleteUserDirectories(req.params.username);
-      res.send({ message: 'User deleted' });
-    } else {
-      res.status(404).send({ error: 'User not found' });
+// tornar um user editor
+export async function beEditor(request, reply) {
+  try{
+    // obter os dados do parametro da requisição
+    const id = request.params.id;
+    const escolha = request.params.escolha;
+    // chamar a função responsável por alterar o estado do campo editor
+    const newEditor = await userService.beEditor(id, escolha);
+    if(newEditor){
+      // se estiver tudo ok, envia o usuário actualizado
+      return reply.status(201).send(newEditor);
+    }else{
+      // se não estiver tudo ok, envia um erro
+      return reply.status(401).send({ message: "Erro ao tentar alterar o estado do Usuário!" });
     }
-  } catch (error) {
-    res.status(500).send({ error: error.message });
+  }catch(error){
+    return reply.code(500).send({ message: 'Internal Server Error' });
   }
-}*/
+}

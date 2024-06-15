@@ -17,6 +17,10 @@ import Music from './models/music.js'
 import Video from './models/video.js'
 import Critica from './models/critica.js'
 import Playlist from './models/playlist.js';
+import PartilharFicheiro from './models/partilharFicheiro.js';
+import Grupo from './models/grupo.js';
+import UserGrupo from './models/userGrupo.js';
+import GrupoFicheiros from './models/grupoFicheiro.js';
 
 // importar as rotas para que sejam registadas
 import userRoutes from "./routes/userRoutes.js";
@@ -29,6 +33,8 @@ import musicRoutes from './routes/musicRoutes.js';
 import uploadRoutes from './routes/uploadRoutes.js';
 import criticaRoutes from './routes/criticaRoutes.js'
 import playlistRoutes from './routes/playlistRoutes.js';
+import partilharFicheiroRoutes from './routes/partilharFicheiroRoutes.js';
+import grupoRoutes from './routes/grupoRoutes.js';
 
 // Inicio das operacoes
 const server = fastify();
@@ -49,13 +55,14 @@ server.register(musicRoutes);
 server.register(playlistRoutes);
 server.register(uploadRoutes);
 server.register(criticaRoutes);
-
+server.register(partilharFicheiroRoutes);
+server.register(grupoRoutes);
 
 // Inicia o servidor
 const start = async () => {
     try {
         // database conexao
-        await database.sequelize.sync({force:true});
+        await database.sequelize.sync();
         //await database.sequelize.authenticate();
         console.log('Conexão com o banco de dados estabelecida com sucesso.');
 

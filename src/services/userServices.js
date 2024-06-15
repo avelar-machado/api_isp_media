@@ -152,3 +152,23 @@ export async function login(username, password){
     throw new Error('Erro no servidor');
   }
 }
+
+// Atribuir privilégio a um user -> editor
+export async function beEditor(id, escolha) {
+  try {
+    // Atualizar o campo editor do usuário
+    const result = await User.update(
+      { editor: escolha }, 
+      { where: { id } } 
+    );
+    
+    if (result[0] === 0) {
+      throw new Error('Usuário não encontrado ou não foi possível atualizar.');
+    }
+    console.log("Usuário atualizado com sucesso.");
+    return await User.findByPk(id);
+  } catch (error) {
+    console.log("Erro ao tentar localizar o usuário e torná-lo editor: ", error);
+    throw new Error('Erro no servidor');
+  }
+}

@@ -48,7 +48,7 @@ export async function updateCritica(req, res) {
     try {
         const criticaId = parseInt(req.params.criticaId);
         const novaCritica = await criticaService.updateCritica(criticaId, req.body);
-        res.status(200).send(novaCritica);
+        res.status(202).send(novaCritica);
     } catch (error) {
         res.status(404).send({ error: error.message });
     }

@@ -51,7 +51,7 @@ export async function updateVideo(req, res) {
     try {
         const videoId = parseInt(req.params.id);
         const updatedVideo = await videoService.updateVideo(videoId, req.body);
-        res.status(200).send(updatedVideo);
+        res.status(202).send(updatedVideo);
     } catch (error) {
         res.status(404).send({ error: error.message });
     }

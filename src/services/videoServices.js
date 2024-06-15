@@ -1,13 +1,21 @@
 // src/services/videoServices.js
 import Video from '../models/video.js'
-import fs from 'fs';
-import path from 'path';
+import { getAlbumById } from './albumServices.js';
 
 // criação de um novo registo de video
 export async function createVideo(videoData) {
     try {
-        const video = await Video.create(videoData);
-        return video;
+        // verificar se possui um algum
+        if(videoData.albumId != null){
+            // recuperar o album
+            const album = await getAlbumById(videoData.albumId);
+            // verificar se o album é public or private
+            if(!album.public)
+                videoData.public = false;
+            const video = await Video.create(videoData);
+            return video;
+        }
+        
     } catch (error) {
         throw new Error(error.message);
     }

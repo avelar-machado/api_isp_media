@@ -56,7 +56,7 @@ export async function updateMusic(req, res) {
     try {
         const musicId = parseInt(req.params.id);
         const updatedMusic = await musicService.updateMusic(musicId, req.body);
-        res.status(200).send(updatedMusic);
+        res.status(202).send(updatedMusic);
     } catch (error) {
         res.status(404).send({ error: error.message });
     }
