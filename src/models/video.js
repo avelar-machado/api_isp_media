@@ -2,6 +2,7 @@
 import { DataTypes } from 'sequelize';
 import sequelize from '../config/dbConfig.js';
 import User from './user.js';
+import Album from './album.js';
 
 const Video = sequelize.define('video', {
     id: {
@@ -14,6 +15,14 @@ const Video = sequelize.define('video', {
         type: DataTypes.INTEGER,
         references: {
             model: User,
+            key: 'id'
+        },
+        allowNull: false
+    },
+    albumId: {
+        type: DataTypes.INTEGER,
+        references: {
+            model: Album,
             key: 'id'
         },
         allowNull: false
@@ -42,6 +51,7 @@ const Video = sequelize.define('video', {
 
 // Relações
 Video.belongsTo(User, { foreignKey: 'user_Id' });
+Video.belongsTo(Album, { foreignKey: 'albumId' });
 User.hasMany(Video, { foreignKey: 'user_Id' });
 
 export default Video;

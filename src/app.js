@@ -55,7 +55,7 @@ server.register(criticaRoutes);
 const start = async () => {
     try {
         // database conexao
-        await database.sequelize.sync();
+        await database.sequelize.sync({force:true});
         //await database.sequelize.authenticate();
         console.log('Conexão com o banco de dados estabelecida com sucesso.');
 
